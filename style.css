@@ -1,0 +1,277 @@
+body {
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace;
+  background: #101820;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+#matrix-canvas {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.45;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(10, 20, 30, 0.85);
+  z-index: 0;
+}
+h1 {
+  color: #39ff14;
+  text-align: center;
+  margin-top: 30px;
+  letter-spacing: 1px;
+  font-size: 2.2rem;
+  text-shadow: 0 0 8px #39ff14, 0 0 2px #000;
+  position: relative;
+  z-index: 1;
+  font-family: inherit;
+}
+#scanBtn {
+  display: block;
+  margin: 24px auto 16px auto;
+  padding: 12px 32px;
+  font-size: 18px;
+  background: linear-gradient(90deg, #39ff14 0%, #00b894 100%);
+  color: #101820;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,255,0,0.12);
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+  font-weight: bold;
+  z-index: 1;
+  position: relative;
+  font-family: inherit;
+}
+#scanBtn:disabled {
+  background: #222;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+#scanBtn:hover:not(:disabled) {
+  background: linear-gradient(90deg, #00ff99 0%, #39ff14 100%);
+  color: #000;
+}
+table {
+  width: 92%;
+  margin: 0 auto 36px auto;
+  border-collapse: collapse;
+  background: rgba(20, 30, 40, 0.95);
+  box-shadow: 0 4px 24px rgba(0,255,0,0.10);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  font-family: inherit;
+}
+th, td {
+  border: 1px solid #222b;
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 1rem;
+  color: #39ff14;
+  text-shadow: 0 0 2px #000;
+  font-family: inherit;
+}
+th {
+  background: #101820;
+  color: #39ff14;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #39ff14;
+}
+tr.whitelisted {
+  background: rgba(0,255,0,0.08);
+}
+tr.unknown {
+  background: rgba(255,0,0,0.08);
+}
+td {
+  transition: background 0.2s;
+}
+button.whitelist, button.remove, button.disconnect {
+  margin: 0 3px;
+  padding: 7px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 500;
+  box-shadow: 0 0 8px #39ff14, 0 0 2px #000;
+  font-family: inherit;
+}
+button.whitelist {
+  background: #101820;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+}
+button.remove {
+  background: #101820;
+  color: #ffe066;
+  border: 1px solid #ffe066;
+}
+button.disconnect {
+  background: #101820;
+  color: #ff1744;
+  border: 1px solid #ff1744;
+}
+button.whitelist:hover {
+  background: #39ff14;
+  color: #101820;
+}
+button.remove:hover {
+  background: #ffe066;
+  color: #101820;
+}
+button.disconnect:hover {
+  background: #ff1744;
+  color: #fff;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background: rgba(10,20,30,0.85);
+}
+.modal-content {
+  background: #181f23;
+  margin: 8% auto;
+  padding: 36px 28px 24px 28px;
+  border-radius: 12px;
+  width: 92%;
+  max-width: 440px;
+  box-shadow: 0 8px 32px rgba(0,255,0,0.18);
+  position: relative;
+  text-align: center;
+  animation: modalFadeIn 0.3s;
+  color: #39ff14;
+  text-shadow: 0 0 2px #000;
+  font-family: inherit;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.close {
+  color: #39ff14;
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close:hover {
+  color: #fff;
+}
+.warning-message {
+  color: #ff1744;
+  font-weight: 500;
+  margin: 14px 0 0 0;
+  font-size: 1.08rem;
+  text-shadow: 0 0 2px #000;
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+#confirmDisconnect {
+  background-color: #101820;
+  color: #ff1744;
+  border: 1px solid #ff1744;
+  padding: 8px 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+#confirmDisconnect:hover {
+  background-color: #ff1744;
+  color: #fff;
+}
+#cancelDisconnect {
+  background-color: #101820;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  padding: 8px 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+#cancelDisconnect:hover {
+  background-color: #39ff14;
+  color: #101820;
+}
+.success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #39ff14;
+  color: #101820;
+  padding: 15px 25px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,255,0,0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+  font-weight: bold;
+  font-family: inherit;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.error-message {
+  background-color: #ff1744;
+  border: 1px solid #ff1744;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-weight: bold;
+  box-shadow: 0 0 8px #ff1744;
+  font-family: inherit;
+}
+@media (max-width: 700px) {
+  .modal-content {
+    width: 99%;
+    padding: 18px 4px 12px 4px;
+  }
+  table {
+    font-size: 13px;
+  }
+  th, td {
+    padding: 7px 2px;
+  }
+  #scanBtn {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+} 
